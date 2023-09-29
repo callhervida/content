@@ -79,7 +79,19 @@ class Edit(APIView):
 
         content = request.data.get('content')
 
-        post_obj = Post.objects.filter(id=post_id)
+        post = Post.objects.filter(id=post_id)
+
+        post_obj = post.first()
+
+        if not post_obj.author != request.user.id:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'Access denied!',
+                    'data': []
+                },
+                status=200
+            )
 
         if not post_obj.first():
             return Response(
@@ -115,6 +127,16 @@ class Delete(APIView):
         post_id = request.GET.get('post_id')
 
         post_obj = Post.objects.filter(id=post_id)
+
+        if not post_obj.author != request.user.id:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'Access denied!',
+                    'data': []
+                },
+                status=200
+            )
 
         if not post_obj.first():
             return Response(
