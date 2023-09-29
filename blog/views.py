@@ -112,20 +112,8 @@ class ReturnPost(APIView):
 
         post_id = request.GET.get('post_id')
 
-        title = request.GET.get('title')
 
-        if title and post_id:
-
-            return Response(
-                {
-                    'status': False,
-                    'message': 'Insert title or id, not both',
-                    'data': []
-                },
-                status=200
-            )
-
-        if not title and not post_id:
+        if not post_id:
             return Response(
                 {
                     'status': False,
@@ -135,43 +123,25 @@ class ReturnPost(APIView):
                 status=200
             )
 
-        if title:
-            post_obj = Post.object.filter(title=title).first()
+        post_obj = Post.object.filter(id=post_id).first()
 
-            if not post_obj:
-                return Response(
-                    {
-                        'status': False,
-                        'message': 'post object does not exist!',
-                        'data': []
-                    },
-                    status=200
-                )
-            content = post_obj.content
+        if not post_obj:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'post object does not exist!',
+                    'data': []
+                },
+                status=200
+            )
+        
+        title = post_obj.title
 
-            author = post_obj.author
+        content = post_obj.content
 
-            created_at = post_obj.created_at
+        author = post_obj.author
 
-        if post_id:
-            post_obj = Post.object.filter(id=post_id).first()
-
-            if not post_obj:
-                return Response(
-                    {
-                        'status': False,
-                        'message': 'post object does not exist!',
-                        'data': []
-                    },
-                    status=200
-                )
-            title = post_obj.title
-
-            content = post_obj.content
-
-            author = post_obj.author
-
-            created_at = post_obj.created_at
+        created_at = post_obj.created_at
 
         return Response(
             {
