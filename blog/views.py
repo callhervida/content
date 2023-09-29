@@ -106,12 +106,42 @@ class Edit(APIView):
         )
 
 
-class ReturnPost(APIView):
+class Delete(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
 
         post_id = request.GET.get('post_id')
 
+        post_obj = Post.objects.filter(id=post_id)
+
+        if not post_obj.first():
+            return Response(
+                {
+                    'status': False,
+                    'message': 'post object does not exist!',
+                    'data': []
+                },
+                status=200
+            )
+        post_obj.delete()
+
+        return Response(
+            {
+                'status': True,
+                'message': 'success',
+                'data': []
+            },
+            status=200
+        )
+
+
+class ReturnPost(APIView):
+
+    def get(self, request):
+
+        post_id = request.GET.get('post_id')
 
         if not post_id:
             return Response(
@@ -134,7 +164,7 @@ class ReturnPost(APIView):
                 },
                 status=200
             )
-        
+
         title = post_obj.title
 
         content = post_obj.content
