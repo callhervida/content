@@ -45,6 +45,16 @@ class PostList(APIView):
 
         post_obj = Post.objects.all()
 
+        if not post_obj:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'post object does not exist!',
+                    'data': []
+                },
+                status=200
+            )
+
         post_serialized = PostSerializer(post_obj, many=True)
 
         return Response(
@@ -57,4 +67,124 @@ class PostList(APIView):
         )
 
 
+class Edit(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, ]
 
+    def post(self, request):
+
+        post_id = request.data.get('post_id')
+
+        title = request.data.get('title')
+
+        content = request.data.get('content')
+
+        post_obj = Post.objects.filter(id=post_id)
+
+        if not post_obj.first():
+            return Response(
+                {
+                    'status': False,
+                    'message': 'post object does not exist!',
+                    'data': []
+                },
+                status=200
+            )
+        if title:
+            post_obj.update(title=title)
+
+        if content:
+            post_obj.update(content=content)
+
+        return Response(
+            {
+                'status': True,
+                'message': 'success',
+                'data': []
+            },
+            status=200
+        )
+
+
+class ReturnPost(APIView):
+
+    def get(self, request):
+
+        post_id = request.GET.get('post_id')
+
+        title = request.GET.get('title')
+
+        if title and post_id:
+
+            return Response(
+                {
+                    'status': False,
+                    'message': 'Insert title or id, not both',
+                    'data': []
+                },
+                status=200
+            )
+
+        if not title and not post_id:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'Insert title or id',
+                    'data': []
+                },
+                status=200
+            )
+
+        if title:
+            post_obj = Post.object.filter(title=title).first()
+
+            if not post_obj:
+                return Response(
+                    {
+                        'status': False,
+                        'message': 'post object does not exist!',
+                        'data': []
+                    },
+                    status=200
+                )
+            content = post_obj.content
+
+            author = post_obj.author
+
+            created_at = post_obj.created_at
+
+        if post_id:
+            post_obj = Post.object.filter(id=post_id).first()
+
+            if not post_obj:
+                return Response(
+                    {
+                        'status': False,
+                        'message': 'post object does not exist!',
+                        'data': []
+                    },
+                    status=200
+                )
+            title = post_obj.title
+
+            content = post_obj.content
+
+            author = post_obj.author
+
+            created_at = post_obj.created_at
+
+        return Response(
+            {
+                'status': False,
+                'message': 'Insert title or id',
+                'data': [
+                    {
+                        'title': title,
+                        'content': content,
+                        'author': author,
+                        'created_at': created_at
+                    }
+                ]
+            },
+            status=200
+        )
