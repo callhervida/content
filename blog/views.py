@@ -1,3 +1,5 @@
+import json
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -284,13 +286,13 @@ class ReturnPost(APIView):
             return Response(
                 {
                     'status': False,
-                    'message': 'Insert title or id',
+                    'message': 'Insert id',
                     'data': []
                 },
                 status=200
             )
 
-        post_obj = Post.object.filter(id=post_id).first()
+        post_obj = Post.objects.filter(id=post_id).first()
 
         if not post_obj:
             return Response(
@@ -302,26 +304,13 @@ class ReturnPost(APIView):
                 status=200
             )
 
-        title = post_obj.title
-
-        content = post_obj.content
-
-        author = post_obj.author
-
-        created_at = post_obj.created_at
+        post_serialized = PostSerializer(post_obj)
 
         return Response(
             {
-                'status': False,
-                'message': 'Insert title or id',
-                'data': [
-                    {
-                        'title': title,
-                        'content': content,
-                        'author': author,
-                        'created_at': created_at
-                    }
-                ]
+                'status': True,
+                'message': 'Success',
+                'data': post_serialized.data
             },
             status=200
         )
