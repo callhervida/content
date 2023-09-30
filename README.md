@@ -75,6 +75,7 @@ Send these parameters to the request endpoint via `GET` method.
 There's no parameter's type and value.
 
 
+
 ### Retrieve a Single Post
 
 To retrieve a single post, should use this API. 
@@ -142,4 +143,3 @@ This schema define the each parameter's type and value.
       			"description" : "Content of the Blog Post"
       	},
     }
-  		

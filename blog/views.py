@@ -158,7 +158,7 @@ class NewPost(APIView):
 
 class PostList(APIView):
 
-    def post(self, request):
+    def get(self, request):
 
         post_obj = Post.objects.all()
 
