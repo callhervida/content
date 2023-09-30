@@ -11,13 +11,7 @@ Please read this document to understand how to intract with provided endpoints.
 	* [Retrieve a List of Posts](#Retrieve-a-list-of-posts)
 	* [Retrieve a Single Post](#Retrieve-a-single-post)
 	* [Edit a Post](#edit-a-post)
-  * [Delete a Post](#delete-a-post)
-	
-* [User](#user)
-	* [Register](#register)
-	* [Login](#login)
-	* [Logout](#Logout)
-   
+  	* [Delete a Post](#delete-a-post)
 
 
 ## Blog
@@ -142,4 +136,33 @@ This schema define the each parameter's type and value.
       			"type" : "string"
       			"description" : "Content of the Blog Post"
       	},
+    }
+
+
+### Delete a Post
+
+To delete a post, should use this API. 
+
+#### Request Endpoint
+
+	http://127.0.0.1:8000/blog/delete/
+	
+
+#### Params
+
+Send these parameters to the request endpoint via `GET` method.
+
+    {
+        "post_id": 1
+    }
+
+#### Params Schema
+
+This schema define the each parameter's type and value.
+
+    {
+        "post_id" : {
+    			"type" : "integer",
+    			"description" : "Id of the Blog Post you want"
+      	}
     }
