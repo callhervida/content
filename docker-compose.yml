@@ -1,0 +1,16 @@
+version: '3.5'
+services:
+  bimebama:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: content
+    volumes:
+      - '/root/docker-compose/data/media/MEDIA/:/app/MEDIA'
+    ports:
+      - "7200:8000"
+    networks:
+      - content_private
+    restart: always
+networks:
+  bimebama_private:
+    external: true
