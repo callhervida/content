@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  bimebama:
+  content:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     container_name: content
@@ -12,5 +12,5 @@ services:
       - content_private
     restart: always
 networks:
-  bimebama_private:
+  content_private:
     external: true
