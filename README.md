@@ -22,6 +22,7 @@ Please read this document to understand how to intract with provided endpoints.
 
 ## Blog
 ### Create a New Post
+
 To create a new post, should use this API. 
 
 #### Request Endpoint
@@ -56,6 +57,7 @@ This schema define the each parameter's type and value.
 
 
 ### Retrieve a List of Posts
+
 To retrieve a list of posts, should use this API. 
 
 #### Request Endpoint
@@ -73,7 +75,9 @@ Send these parameters to the request endpoint via `GET` method.
 There's no parameter's type and value.
 
 
-### Retrieve a single post
+
+### Retrieve a Single Post
+
 To retrieve a single post, should use this API. 
 
 #### Request Endpoint
@@ -100,4 +104,42 @@ This schema define the each parameter's type and value.
       	}
     }
   		
-  		
+
+### Edit a post
+
+To edit a post, should use this API. 
+
+#### Request Endpoint
+
+	http://127.0.0.1:8000/blog/edit/
+	
+
+#### Params
+
+Send those parameters yo want to edit to the request endpoint via `POST` method.
+
+    {
+        "post_id": 1,
+        "title": "edited",
+        "content": "changed"
+    }
+
+#### Params Schema
+
+This schema define the each parameter's type and value.
+
+    {
+        "post_id" : {
+    			"type" : "integer",
+    			"description" : "ID of the Blog Post you want. ID is required"
+      	},
+        "title" : {
+    			"type" : "string",
+    			"description" : "Title of the Blog Post"
+      	},
+        
+        "content" : {
+      			"type" : "string"
+      			"description" : "Content of the Blog Post"
+      	},
+    }
