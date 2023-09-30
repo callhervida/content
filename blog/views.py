@@ -208,7 +208,7 @@ class Edit(APIView):
                 status=200
             )
 
-        if not post_obj.first():
+        if not post_obj:
             return Response(
                 {
                     'status': False,
@@ -218,10 +218,10 @@ class Edit(APIView):
                 status=200
             )
         if title:
-            post_obj.update(title=title)
+            post.update(title=title)
 
         if content:
-            post_obj.update(content=content)
+            post.update(content=content)
 
         return Response(
             {
