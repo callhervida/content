@@ -144,6 +144,15 @@ class NewPost(APIView):
             )
         post_serialized.save()
 
+        return Response(
+            {
+                'status': True,
+                'message': 'Post created successfully',
+                'data': []
+            },
+            status=200
+        )
+
 
 class PostList(APIView):
 
