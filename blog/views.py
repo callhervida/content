@@ -198,21 +198,21 @@ class Edit(APIView):
 
         post_obj = post.first()
 
-        if not post_obj.author != request.user.id:
-            return Response(
-                {
-                    'status': False,
-                    'message': 'Access denied!',
-                    'data': []
-                },
-                status=200
-            )
-
         if not post_obj:
             return Response(
                 {
                     'status': False,
                     'message': 'post object does not exist!',
+                    'data': []
+                },
+                status=200
+            )
+
+        if not post_obj.author != request.user.id:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'Access denied!',
                     'data': []
                 },
                 status=200
@@ -243,16 +243,6 @@ class Delete(APIView):
 
         post_obj = Post.objects.filter(id=post_id)
 
-        if not post_obj.author != request.user.id:
-            return Response(
-                {
-                    'status': False,
-                    'message': 'Access denied!',
-                    'data': []
-                },
-                status=200
-            )
-
         if not post_obj.first():
             return Response(
                 {
@@ -264,10 +254,20 @@ class Delete(APIView):
             )
         post_obj.delete()
 
+        if not post_obj.first().author != request.user.id:
+            return Response(
+                {
+                    'status': False,
+                    'message': 'Access denied!',
+                    'data': []
+                },
+                status=200
+            )
+
         return Response(
             {
                 'status': True,
-                'message': 'success',
+                'message': 'Post deleted successfully',
                 'data': []
             },
             status=200
